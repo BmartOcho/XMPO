@@ -36,7 +36,6 @@ for file in xml_files:
         total_width = across_x * size_x
         total_height = across_y * size_y
 
-        # Calculate offsets to center layout
         offset_x = (printable_x - total_width) / 2
         offset_y = (printable_y - total_height) / 2
 
@@ -47,29 +46,22 @@ for file in xml_files:
         ax.set_aspect('equal')
         ax.invert_yaxis()
 
-        # Draw non-printable area
         if printable_x < sheet_x or printable_y < sheet_y:
             left_margin = (sheet_x - printable_x) / 2
             top_margin = (sheet_y - printable_y) / 2
             ax.add_patch(plt.Rectangle((0, 0), sheet_x, sheet_y, color='red', alpha=0.2))
             ax.add_patch(plt.Rectangle((left_margin, top_margin), printable_x, printable_y, color='white'))
 
-        # Crop mark settings
-        crop_offset = 0.0625  # inches
-        crop_length = 0.125   # inches
-        crop_thickness = 1.5 / 72  # convert points to inches (1 pt = 1/72 in)
-
-        # Draw imposition boxes
+        crop_offset = 0.0625
+        crop_length = 0.125
         for row in range(across_y):
             for col in range(across_x):
                 x = offset_x + col * size_x + (sheet_x - printable_x) / 2
                 y = offset_y + row * size_y + (sheet_y - printable_y) / 2
 
-                # Draw artwork area
                 artwork = plt.Rectangle((x, y), size_x, size_y, linewidth=1, edgecolor='blue', facecolor='lightblue')
                 ax.add_patch(artwork)
 
-                # Draw bleed box
                 bleed_box = plt.Rectangle(
                     (x + bleed, y + bleed),
                     size_x - 2 * bleed,
@@ -81,25 +73,21 @@ for file in xml_files:
                 )
                 ax.add_patch(bleed_box)
 
-                # Draw crop marks at each corner
-                for dx in [0, size_x]:
-                    for dy in [0, size_y]:
-                        cx = x + dx
-                        cy = y + dy
+                # Crop marks (black lines, 1.5pt = 0.021in)
+                lw = 0.021
+                # Top-left
+                ax.plot([x - crop_offset - crop_length, x - crop_offset], [y - crop_offset, y - crop_offset], color='black', linewidth=lw)
+                ax.plot([x - crop_offset, x - crop_offset], [y - crop_offset - crop_length, y - crop_offset], color='black', linewidth=lw)
+                # Top-right
+                ax.plot([x + size_x + crop_offset, x + size_x + crop_offset + crop_length], [y - crop_offset, y - crop_offset], color='black', linewidth=lw)
+                ax.plot([x + size_x + crop_offset, x + size_x + crop_offset], [y - crop_offset - crop_length, y - crop_offset], color='black', linewidth=lw)
+                # Bottom-left
+                ax.plot([x - crop_offset - crop_length, x - crop_offset], [y + size_y + crop_offset, y + size_y + crop_offset], color='black', linewidth=lw)
+                ax.plot([x - crop_offset, x - crop_offset], [y + size_y + crop_offset, y + size_y + crop_offset + crop_length], color='black', linewidth=lw)
+                # Bottom-right
+                ax.plot([x + size_x + crop_offset, x + size_x + crop_offset + crop_length], [y + size_y + crop_offset, y + size_y + crop_offset], color='black', linewidth=lw)
+                ax.plot([x + size_x + crop_offset, x + size_x + crop_offset], [y + size_y + crop_offset, y + size_y + crop_offset + crop_length], color='black', linewidth=lw)
 
-                        # Horizontal crop mark
-                        ax.plot([
-                            cx - crop_length if dx else cx + crop_length,
-                            cx
-                        ], [cy - crop_offset if dy else cy + crop_offset] * 2, color='black', linewidth=crop_thickness)
-
-                        # Vertical crop mark
-                        ax.plot([cx - crop_offset if dx else cx + crop_offset] * 2, [
-                            cy - crop_length if dy else cy + crop_length,
-                            cy
-                        ], color='black', linewidth=crop_thickness)
-
-        # Draw printable area border
         printable_border = plt.Rectangle(
             ((sheet_x - printable_x) / 2, (sheet_y - printable_y) / 2),
             printable_x, printable_y,
