@@ -54,6 +54,11 @@ for file in xml_files:
             ax.add_patch(plt.Rectangle((0, 0), sheet_x, sheet_y, color='red', alpha=0.2))
             ax.add_patch(plt.Rectangle((left_margin, top_margin), printable_x, printable_y, color='white'))
 
+        # Crop mark settings
+        crop_offset = 0.0625  # inches
+        crop_length = 0.125   # inches
+        crop_thickness = 1.5 / 72  # convert points to inches (1 pt = 1/72 in)
+
         # Draw imposition boxes
         for row in range(across_y):
             for col in range(across_x):
@@ -75,6 +80,24 @@ for file in xml_files:
                     linestyle='--'
                 )
                 ax.add_patch(bleed_box)
+
+                # Draw crop marks at each corner
+                for dx in [0, size_x]:
+                    for dy in [0, size_y]:
+                        cx = x + dx
+                        cy = y + dy
+
+                        # Horizontal crop mark
+                        ax.plot([
+                            cx - crop_length if dx else cx + crop_length,
+                            cx
+                        ], [cy - crop_offset if dy else cy + crop_offset] * 2, color='black', linewidth=crop_thickness)
+
+                        # Vertical crop mark
+                        ax.plot([cx - crop_offset if dx else cx + crop_offset] * 2, [
+                            cy - crop_length if dy else cy + crop_length,
+                            cy
+                        ], color='black', linewidth=crop_thickness)
 
         # Draw printable area border
         printable_border = plt.Rectangle(
