@@ -36,19 +36,28 @@ def draw_imposition_section(c, section, sheet_x, sheet_y):
             c.setLineWidth(1.5)
             c.setStrokeColorRGB(0, 0, 0)
 
-            # Crop marks at trim box
+            mark_offset = 0.0625 * inch
+            mark_length = 0.25 * inch
+
+            # Top left
             cx, cy = x, y + trim_height * inch
-            c.line(cx - 0.0625 * inch, cy, cx, cy)
-            c.line(cx, cy + 0.125 * inch, cx, cy)
+            c.line(cx - mark_offset, cy, cx - mark_offset + mark_length, cy)
+            c.line(cx, cy + mark_offset, cx, cy + mark_offset - mark_length)
+
+            # Top right
             cx2 = x + trim_width * inch
-            c.line(cx2, cy, cx2 + 0.0625 * inch, cy)
-            c.line(cx2, cy + 0.125 * inch, cx2, cy)
+            c.line(cx2 + mark_offset, cy, cx2 + mark_offset - mark_length, cy)
+            c.line(cx2, cy + mark_offset, cx2, cy + mark_offset - mark_length)
+
+            # Bottom left
             bx, by = x, y
-            c.line(bx - 0.0625 * inch, by, bx, by)
-            c.line(bx, by - 0.125 * inch, bx, by)
+            c.line(bx - mark_offset, by, bx - mark_offset + mark_length, by)
+            c.line(bx, by - mark_offset, bx, by - mark_offset + mark_length)
+
+            # Bottom right
             brx, bry = bx + trim_width * inch, by
-            c.line(brx, bry, brx + 0.0625 * inch, bry)
-            c.line(brx, bry - 0.125 * inch, brx, bry)
+            c.line(brx + mark_offset, bry, brx + mark_offset - mark_length, bry)
+            c.line(brx, bry - mark_offset, brx, bry - mark_offset + mark_length)
 
     c.showPage()
     c.save()
