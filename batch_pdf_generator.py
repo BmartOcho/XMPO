@@ -17,6 +17,9 @@ def draw_imposition_section(c, section, sheet_x, sheet_y):
     printable_x = float(impo.get('printable_x'))
     printable_y = float(impo.get('printable_y'))
 
+    trim_width = size_x - 2 * bleed
+    trim_height = size_y - 2 * bleed
+
     total_width = across_x * size_x
     total_height = across_y * size_y
 
@@ -27,25 +30,25 @@ def draw_imposition_section(c, section, sheet_x, sheet_y):
 
     for row in range(across_y):
         for col in range(across_x):
-            x = (offset_x + col * size_x) * inch
-            y = (sheet_y - (offset_y + row * size_y + size_y)) * inch
+            x = (offset_x + col * size_x + bleed) * inch
+            y = (sheet_y - (offset_y + row * size_y + bleed + trim_height)) * inch
 
             c.setLineWidth(1.5)
             c.setStrokeColorRGB(0, 0, 0)
 
-            # Crop marks
-            cx, cy = x, y + size_y * inch
+            # Crop marks at trim box
+            cx, cy = x, y + trim_height * inch
             c.line(cx - 0.0625 * inch, cy, cx, cy)
-            c.line(cx, cy + 0.0625 * inch, cx, cy)
-            cx2 = x + size_x * inch
+            c.line(cx, cy + 0.125 * inch, cx, cy)
+            cx2 = x + trim_width * inch
             c.line(cx2, cy, cx2 + 0.0625 * inch, cy)
-            c.line(cx2, cy + 0.0625 * inch, cx2, cy)
+            c.line(cx2, cy + 0.125 * inch, cx2, cy)
             bx, by = x, y
             c.line(bx - 0.0625 * inch, by, bx, by)
-            c.line(bx, by - 0.0625 * inch, bx, by)
-            brx, bry = bx + size_x * inch, by
+            c.line(bx, by - 0.125 * inch, bx, by)
+            brx, bry = bx + trim_width * inch, by
             c.line(brx, bry, brx + 0.0625 * inch, bry)
-            c.line(brx, bry - 0.0625 * inch, brx, bry)
+            c.line(brx, bry - 0.125 * inch, brx, bry)
 
     c.showPage()
     c.save()
