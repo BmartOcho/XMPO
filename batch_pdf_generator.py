@@ -22,9 +22,6 @@ def draw_imposition_section(c, section, sheet_x, sheet_y):
     finished_h = float(impo.get('finished_height', 0))
     bleed = float(impo.get('bleed', 0))
 
-    bleed_x = (size_x - finished_w) / 2.0
-    bleed_y = (size_y - finished_h) / 2.0
-
     total_w = across * size_x
     total_h = down * size_y
     offset_x = (printable_x - total_w) / 2.0 + (sheet_x - printable_x) / 2.0
@@ -35,12 +32,12 @@ def draw_imposition_section(c, section, sheet_x, sheet_y):
     c.setStrokeColorRGB(0, 0, 0)
 
     mark_offset = 0.0625 * inch  # 1/16" outside trim edge
-    mark_length = 0.25 * inch    # 1/4" long crop mark
+    mark_length = 0.125 * inch   # 1/8" long crop mark
 
     for row in range(down):
         for col in range(across):
-            trim_x = (offset_x + col * size_x + bleed_x) * inch
-            trim_y = (offset_y + row * size_y + bleed_y) * inch
+            trim_x = (offset_x + col * size_x) * inch
+            trim_y = (offset_y + row * size_y) * inch
 
             left = trim_x
             bottom = trim_y
