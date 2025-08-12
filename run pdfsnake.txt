@@ -1,0 +1,4 @@
+.\pdfsnake.exe impose -j "Monkey.json" "C:\Users\Benjamin\Desktop\Python Apps\_Test Files\5x7_duplex.pdf"
+
+
+cd "C:\Users\Benjamin\Desktop\Python Apps\pdfsnake"

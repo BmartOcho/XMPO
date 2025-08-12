@@ -1,0 +1,21 @@
+{
+  "type": "step_and_repeat",
+  "input": "PDFs\\J208819_1.pdf",
+  "output": "PDFSnake_Output\\J208819_imposed.pdf",
+  "paperWidth": 936.0,
+  "paperHeight": 1368.0,
+  "leftMargin": 18.0,
+  "topMargin": 27.0,
+  "verticalGutterWidth": 0,
+  "horizontalGutterWidth": 0,
+  "bleeds": {
+    "top": 9.0,
+    "bottom": 9.0,
+    "left": 9.0,
+    "right": 9.0
+  },
+  "lineDistance": 4.5,
+  "lineLength": 9.0,
+  "lineThickness": 1.5,
+  "cropMarks": true
+}
