@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "paperWidth": 936.0,
+      "paperHeight": 1872.0,
+      "leftMargin": 14.4,
+      "topMargin": 18.0,
+      "verticalGutterWidth": 18.0,
+      "horizontalGutterWidth": 18.0,
+      "center": true,
+      "pageOrder": "stepAndRepeat",
+      "doubleSided": true,
+      "repeat": 1,
+      "newStackOrder": true,
+      "cropMarks": true,
+      "marksInGutters": true,
+      "centerMarks": true,
+      "lineLength": 7.2,
+      "lineThickness": 0.72,
+      "lineDistance": 5.040000000000001,
+      "fourColorBlack": false,
+      "whiteBorder": false,
+      "bleeds": "pullFromDoc",
+      "fixedBleedLeft": 0.0,
+      "fixedBleedTop": 0.0,
+      "direction": "leftToRight",
+      "kind": "Monkey"
+    }
+  ]
+}
